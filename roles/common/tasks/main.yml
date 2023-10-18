@@ -1,0 +1,27 @@
+- name: Update the system and install basic requirements for Debian/Ubuntu
+  import_tasks: debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+- name: Update the system and install basic requirements for RedHat/CentOS
+  import_tasks: redhat.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+
+# Generic tasks
+- name: Enable Fail2ban service
+  systemd:
+    name: fail2ban
+    enabled: yes
+    state: started
+
+- name: Update pip
+  ansible.builtin.pip:
+    name: pip
+    executable: pip3
+    state: latest
+
+- name: Install pyopenssl
+  ansible.builtin.pip:
+    name: 
+      - pyopenssl
+    executable: pip3
+    state: latest

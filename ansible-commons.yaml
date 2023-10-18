@@ -1,0 +1,21 @@
+- hosts: all
+  roles:
+    - common
+
+  tasks:
+
+  - name: Install Miniconda
+    script: miniconda-install.sh
+
+  - name: Copy IFB profile
+    copy:
+      src: profile_ifb.sh
+      dest: /etc/profile.d/ifb.sh
+      owner: root
+      mode: '0644'
+
+  - name: Create IFB root dir and bin
+    shell: . /etc/profile.d/ifb.sh && mkdir -p $IFB_BIN
+
+  - name: Create IFB data dir
+    shell: . /etc/profile.d/ifb.sh && mkdir -p $IFB_DATADIR
